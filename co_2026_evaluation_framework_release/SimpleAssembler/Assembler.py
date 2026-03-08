@@ -315,15 +315,13 @@ def two_pass_assembler(parsed_lines):
 
 
     for line in parsed_lines:
-        # Check if the line is just a label 
         if len(line) == 1 and line[0].endswith(':'):
-            label_name = line[0][:-1] # Remove the colon
+            label_name = line[0][:-1] 
             table[label_name] = pc
         else:
             inst_only.append(line)
             pc += 4
 
-            #RISC-V increments PC by 4 bytes per instruction
 
     resolved_instructions = []
     pc = 0
@@ -332,14 +330,12 @@ def two_pass_assembler(parsed_lines):
         op = inst[0]
         inst_type = TYPE_MAP.get(op)
 
-        # Create a copy6 so we dont alter the original list
         
         resolved_inst = list(inst)
 
         if inst_type == "B":
             
             tgt = resolved_inst[3]
-            # If the tgt is not digit, read it as a label
             
             if tgt.lstrip('-').isdigit() == False:
                 if tgt in table:
@@ -349,8 +345,7 @@ def two_pass_assembler(parsed_lines):
                     raise Exception(f"error: label '{tgt}' not found.")
 
         elif inst_type == "J":
-            
-            # J Type format from parser: ["jal", "rd", "label"]
+             
             
             tgt = resolved_inst[2]
             if tgt.lstrip('-').isdigit() == False:
@@ -366,7 +361,6 @@ def two_pass_assembler(parsed_lines):
     return resolved_instructions
 
 
-#check if the program contains the required virtual halt instruction
 def check_virtual_halt(resolved_instructions):
     if len(resolved_instructions) == 0:
         raise Exception("Empty program")
@@ -376,10 +370,8 @@ def check_virtual_halt(resolved_instructions):
     for inst in resolved_instructions:
         if inst==["beq", "zero", "zero", "0"]:
             halt+= 1
-    #program must contain a virtual halt
     if halt==0:
         raise Exception("Missing Virtual Halt instruction")
-    #virtual halt must be the last instruction
     if resolved_instructions[-1]!=["beq", "zero", "zero", "0"]:
         raise Exception("Virtual Halt not being used as the last instruction")
 
@@ -420,3 +412,4 @@ output_file = sys.argv[2]
 
 
 assemble(input_file, output_file)
+
