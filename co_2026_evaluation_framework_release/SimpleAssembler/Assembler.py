@@ -307,7 +307,6 @@ def reader_parser(file):
     return parsed_program
 
 
-# RISHI
 
 def two_pass_assembler(parsed_lines):
     table = {}
@@ -366,7 +365,6 @@ def two_pass_assembler(parsed_lines):
 
     return resolved_instructions
 
-# PRAAVIR
 
 #check if the program contains the required virtual halt instruction
 def check_virtual_halt(resolved_instructions):
@@ -402,12 +400,6 @@ def assemble(input_file, output_file):
         print(f"Error during label resolution:{e}")
         return
 
-    # try:
-    #     #checking if program ended properly
-    #     check_virtual_halt(resolved_instructions)
-    # except Exception as e:
-    #     pass
-
     try:
         # encoding instructions and writing binary output
         with open(output_file,'w') as out_file:
@@ -425,5 +417,6 @@ import sys
 
 input_file = sys.argv[1]
 output_file = sys.argv[2]
+
 
 assemble(input_file, output_file)
