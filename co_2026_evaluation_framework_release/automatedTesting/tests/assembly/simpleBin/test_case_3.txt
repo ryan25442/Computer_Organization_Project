@@ -1,0 +1,18 @@
+init: addi s1,zero,5
+addi s2,zero,0
+addi s3,zero,1
+addi s4,zero,256
+loop: add s2,s2,s3
+addi s3,s3,1
+bne s3,s1,loop
+store_result: sw s2,0(s4)
+lw a0,0(s4)
+addi sp,sp,-8
+sw s2,4(sp)
+jal ra,check_positive
+check_positive: lw t0,4(sp)
+slt t1,zero,t0
+beq t1,zero,exit
+exit: addi sp,sp,8
+jalr zero,ra,0
+beq zero,zero,0
